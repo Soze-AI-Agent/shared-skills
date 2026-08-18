@@ -1,0 +1,20 @@
+[Unit]
+Description=Hermes task-bus MCP server
+After=network-online.target tailscaled.service
+Wants=network-online.target
+
+[Service]
+Type=simple
+User=m
+WorkingDirectory=/opt/taskbus
+Environment=TASKBUS_DB=/opt/taskbus/taskbus.db
+Environment=TASKBUS_HOST=100.99.71.23
+Environment=TASKBUS_PORT=8765
+Environment=TASKBUS_TRANSPORT=both
+ExecStart=/opt/taskbus/venv/bin/python /opt/taskbus/task_bus_server.py
+Restart=on-failure
+RestartSec=3
+NoNewPrivileges=yes
+
+[Install]
+WantedBy=multi-user.target
